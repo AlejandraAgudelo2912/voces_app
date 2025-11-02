@@ -1,34 +1,59 @@
 <?php
-require_once 'config.php';
-$mensajes = $conn->query("SELECT * FROM mensajes ORDER BY fecha DESC")->fetchAll(PDO::FETCH_ASSOC);
-?>
+$archivo = '/tmp/datos/mensajes.json';
 
+// Crear si no existe
+if (!file_exists($archivo)) {
+    @mkdir(dirname($archivo), 0777, true);
+    file_put_contents($archivo, '[]');
+}
+
+// Leer mensajes
+$mensajes = json_decode(file_get_contents($archivo), true);
+if (!is_array($mensajes)) {
+    $mensajes = [];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
-    <head>
+<head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voces Anónimas</title>
     <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header>
+        <h2>Voces Anónimas</h2>
+        <nav>
+            <a href="index.php">Inicio</a>
+            <a href="frases.php">Frases</a>
+        </nav>
+    </header>
 
-    </head>
-    <body>
-        <?php include 'includes/header.php'; ?>
-
-        <h1>Voces Anónimas</h1>
+    <main>
+        <h1>Comparte tu historia</h1>
+        <p>Este espacio es seguro y anónimo. Escribe lo que sientas. No estás sola, no estás solo.</p>
 
         <form action="guardar.php" method="POST">
-            <textarea name="mensaje" placeholder="Escribe tu mensaje anónimo aquí..." required></textarea><br>
+            <textarea name="mensaje" placeholder="Escribe aquí tu historia o mensaje..."></textarea>
             <button type="submit">Enviar</button>
         </form>
 
-        <?php foreach ($mensajes as $m): ?>
-            <div class="message">
-                <p><?= htmlspecialchars($m['texto']) ?></p>
-                <div class="date"><?= date('d/m/Y H:i', strtotime($m['fecha'])) ?></div>
-            </div>
-        <?php endforeach; ?>
+        <h2>Últimos mensajes</h2>
+        <?php if (count($mensajes) === 0): ?>
+            <p>Aún no hay mensajes. Sé la primera persona en escribir.</p>
+        <?php else: ?>
+            <?php foreach (array_reverse($mensajes) as $m): ?>
+                <div class="mensaje">
+                    <p><?= htmlspecialchars($m['texto']) ?></p>
+                    <span><?= htmlspecialchars($m['fecha']) ?></span>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </main>
 
-        <?php include 'includes/footer.php'; ?>
-
-    </body>
+    <footer>
+        <p>&copy; <?= date('Y') ?> Voces Anónimas</p>
+    </footer>
+</body>
 </html>

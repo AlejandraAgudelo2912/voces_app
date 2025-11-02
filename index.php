@@ -22,13 +22,8 @@ if (!is_array($mensajes)) {
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <header>
-        <h2>Voces Anónimas</h2>
-        <nav>
-            <a href="index.php">Inicio</a>
-            <a href="frases.php">Frases</a>
-        </nav>
-    </header>
+        <?php include 'includes/header.php'; ?>
+
 
     <main>
         <h1>Comparte tu historia</h1>
@@ -52,8 +47,6 @@ if (!is_array($mensajes)) {
         <?php endif; ?>
     </main>
 
-    <footer>
-        <p>&copy; <?= date('Y') ?> Voces Anónimas</p>
-    </footer>
+ <?php include 'includes/footer.php'; ?>
 </body>
 </html>

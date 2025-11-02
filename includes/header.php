@@ -7,8 +7,9 @@
 </head>
 <body>
 <header>
-    <h2><a href="index.php">Voces que ya no callan</a></h2>
+    <h2>Voces que ya no callan</h2>
     <nav>
+        <a href="https://www.paypal.com/donate/?hosted_button_id=FMA6XNPJ44MPY" target="_blank" rel="noopener">Donar</a>
         <a href="index.php">Inicio</a>
         <a href="frases.php">Frases motivadoras</a>
     </nav>

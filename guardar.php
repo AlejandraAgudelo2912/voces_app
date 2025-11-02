@@ -1,14 +1,5 @@
 <?php
-
 require_once 'config.php';
-
-$conn->exec("
-    CREATE TABLE IF NOT EXISTS mensajes (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        texto TEXT NOT NULL,
-        fecha DATETIME NOT NULL
-    )
-");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
     $mensaje = strip_tags($_POST['mensaje']);
@@ -16,10 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
 
     $stmt = $conn->prepare("INSERT INTO mensajes (texto, fecha) VALUES (:texto, :fecha)");
     $stmt->execute([':texto' => $mensaje, ':fecha' => $fecha]);
-
-    header('Location: index.php');
-    exit;
-} else {
-    header('Location: index.php');
-    exit;
 }
+
+header('Location: index.php');
+exit;
+?>
